@@ -1,0 +1,24 @@
+#include <iostream>
+#include <string>
+
+std::string atbash(const std::string& input) {
+    std::string output;
+    for (char c : input) {
+        if (isalpha(c)) {
+            char base = islower(c) ? 'a' : 'A';
+            output += base + ('z' - c) - ('a' - base);
+        } else {
+            output += c;
+        }
+    }
+    return output;
+}
+
+int main() {
+    std::string text;
+    std::cout << "Введите текст для шифрования: ";
+    std::getline(std::cin, text);
+    std::string encrypted = atbash(text);
+    std::cout << "Зашифрованный текст: " << encrypted << std::endl;
+    return 0;
+} 
