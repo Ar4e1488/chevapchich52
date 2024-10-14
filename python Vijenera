@@ -1,0 +1,18 @@
+def vigenere_encrypt(plain_text, keyword):
+    encrypted_text = ""
+    keyword_repeated = (keyword * (len(plain_text) // len(keyword) + 1))[:len(plain_text)]
+
+    for p, k in zip(plain_text, keyword_repeated):
+        if p.isalpha():
+            shift = (ord(p.lower()) - ord('a') + ord(k.lower()) - ord('a')) % 26
+            encrypted_char = chr(shift + ord('a'))
+            encrypted_text += encrypted_char
+        else:
+            encrypted_text += p
+
+    return encrypted_text
+
+plain_text = "attacka"
+keyword = "lemon"
+encrypted = vigenere_encrypt(plain_text, keyword)
+print("Encrypted:", encrypted)
