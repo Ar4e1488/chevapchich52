@@ -1,0 +1,27 @@
+#include <iostream>
+#include <string>
+
+std::string vigenere_encrypt(const std::string &plain_text, const std::string &keyword) {
+    std::string encrypted_text;
+    int keyword_length = keyword.length();
+
+    for (size_t i = 0, j = 0; i < plain_text.length(); i++) {
+        if (isalpha(plain_text[i])) {
+            char shift = (tolower(plain_text[i]) - 'a' + tolower(keyword[j % keyword_length]) - 'a') % 26 + 'a';
+            encrypted_text += shift;
+            j++;
+        } else {
+            encrypted_text += plain_text[i];
+        }
+    }
+
+    return encrypted_text;
+}
+
+int main() {
+    std::string plain_text = "attacka";
+    std::string keyword = "lemon";
+    std::string encrypted = vigenere_encrypt(plain_text, keyword);
+    std::cout << "Encrypted: " << encrypted << std::endl;
+    return 0;
+}
