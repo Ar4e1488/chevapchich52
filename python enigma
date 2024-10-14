@@ -1,0 +1,18 @@
+class SimpleEnigma:
+    def __init__(self, rotor):
+        self.rotor = rotor
+
+    def encrypt(self, text):
+        encrypted = ""
+        for char in text:
+            if char.isalpha():
+                idx = (ord(char.upper()) - ord('A') + self.rotor) % 26
+                encrypted += chr(idx + ord('A'))
+                self.rotor = (self.rotor + 1) % 26  # Поворачиваем ротор
+            else:
+                encrypted += char
+        return encrypted
+enigma = SimpleEnigma(rotor=3)
+text = "HELLO WORLD"
+encrypted_text = enigma.encrypt(text)
+print(f"Encrypted: {encrypted_text}")
