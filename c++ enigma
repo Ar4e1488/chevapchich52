@@ -1,0 +1,32 @@
+#include <iostream>
+#include <string>
+
+class SimpleEnigma {
+public:
+    SimpleEnigma(int rotor) : rotor(rotor) {}
+
+    std::string encrypt(const std::string& text) {
+        std::string encrypted;
+        for (char ch : text) {
+            if (isalpha(ch)) {
+                int idx = (toupper(ch) - 'A' + rotor) % 26;
+                encrypted += (idx + 'A');
+                rotor = (rotor + 1) % 26; 
+            } else {
+                encrypted += ch;
+            }
+        }
+        return encrypted;
+    }
+
+private:
+    int rotor;
+};
+
+int main() {
+    SimpleEnigma enigma(3);
+    std::string text = "HELLO WORLD";
+    std::string encrypted_text = enigma.encrypt(text);
+    std::cout << "Encrypted: " << encrypted_text << std::endl;
+    return 0;
+}
