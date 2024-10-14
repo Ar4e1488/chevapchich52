@@ -1,0 +1,27 @@
+package main
+
+import (
+    "fmt"
+    "strings"
+)
+
+func atbashCipher(input string) string {
+    var result strings.Builder
+    for _, char := range input {
+        if char >= 'A' && char <= 'Z' {
+            result.WriteRune('Z' - (char - 'A'))
+        } else if char >= 'a' && char <= 'z' {
+            result.WriteRune('z' - (char - 'a'))
+        } else {
+            result.WriteRune(char) 
+        }
+    }
+    return result.String()
+}
+
+func main() {
+    text := "Hello, World!"
+    encryptedText := atbashCipher(text)
+    fmt.Println("Original:", text)
+    fmt.Println("Encrypted:", encryptedText)
+}
