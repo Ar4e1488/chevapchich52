@@ -1,0 +1,32 @@
+package main
+
+import (
+    "fmt"
+    "strings"
+    "unicode"
+)
+
+type SimpleEnigma struct {
+    rotor int
+}
+
+func (e *SimpleEnigma) Encrypt(text string) string {
+    var encrypted strings.Builder
+    for _, ch := range text {
+        if unicode.IsLetter(ch) {
+            idx := (int(unicode.ToUpper(ch)-'A') + e.rotor) % 26
+            encrypted.WriteRune(rune(idx + 'A'))
+            e.rotor = (e.rotor + 1) % 26 
+        } else {
+            encrypted.WriteRune(ch)
+        }
+    }
+    return encrypted.String()
+}
+
+func main() {
+    enigma := SimpleEnigma{rotor: 3}
+    text := "HELLO WORLD"
+    encryptedText := enigma.Encrypt(text)
+    fmt.Println("Encrypted:", encryptedText)
+}
