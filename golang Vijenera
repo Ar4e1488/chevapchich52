@@ -1,0 +1,29 @@
+package main
+
+import (
+    "fmt"
+    "strings"
+)
+
+func vigenereEncrypt(plainText, keyword string) string {
+    var encryptedText strings.Builder
+    keywordLen := len(keyword)
+
+    for i, char := range plainText {
+        if char >= 'a' && char <= 'z' {
+            shift := (int(char-'a') + int(keyword[i%keywordLen]-'a')) % 26
+            encryptedText.WriteByte(byte(shift + 'a'))
+        } else {
+            encryptedText.WriteByte(byte(char))
+        }
+    }
+
+    return encryptedText.String()
+}
+
+func main() {
+    plainText := "attacka"
+    keyword := "lemon"
+    encrypted := vigenereEncrypt(plainText, keyword)
+    fmt.Println("Encrypted:", encrypted)
+}
