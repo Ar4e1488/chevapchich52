@@ -1,0 +1,20 @@
+import numpy as np
+
+
+def encrypt(message, key_matrix):
+    message_vector = np.array([ord(c) for c in message])
+    cipher_vector = np.dot(key_matrix, message_vector) % 256  # 256 для ассиметрии
+    return ''.join(chr(int(c)) for c in cipher_vector)
+
+
+def main():
+    # Пример ключа (2x2 матрица)
+    key_matrix = np.array([[3, 2], [1, 4]])
+    message = "Ae"
+
+    encrypted_message = encrypt(message, key_matrix)
+    print("Encrypted Message:", encrypted_message)
+
+
+if __name__ == "__main__":
+    main()
