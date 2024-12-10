@@ -1,0 +1,36 @@
+#include <iostream>
+#include <vector>
+
+std::string encrypt(const std::string& message, const std::vector<std::vector<int>>& keyMatrix) {
+    std::vector<int> messageVector;
+    
+    // Превращаем сообщение в вектор
+    for (char c : message) {
+        messageVector.push_back(static_cast<int>(c));
+    }
+
+    std::vector<int> cipherVector(keyMatrix.size(), 0);
+    for (size_t i = 0; i < keyMatrix.size(); ++i) {
+        for (size_t j = 0; j < keyMatrix[0].size(); ++j) {
+            cipherVector[i] += keyMatrix[i][j] * messageVector[j];
+        }
+        cipherVector[i] %= 256;  // для управления ассиметрией
+    }
+
+    std::string encryptedMessage;
+    for (int c : cipherVector) {
+        encryptedMessage += static_cast<char>(c);
+    }
+    
+    return encryptedMessage;
+}
+
+int main() {
+    std::vector<std::vector<int>> keyMatrix = {{3, 2}, {1, 4}};
+    std::string message = "Hi";
+
+    std::string encryptedMessage = encrypt(message, keyMatrix);
+    std::cout << "Encrypted Message: " << encryptedMessage << std::endl;
+
+    return 0;
+}
