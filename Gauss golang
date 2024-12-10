@@ -1,0 +1,38 @@
+package main
+
+import (
+    "fmt"
+)
+
+func encrypt(message string, keyMatrix [][]int) string {
+    messageVector := make([]int, len(message))
+
+    // Превращаем сообщение в вектор
+    for i, c := range message {
+        messageVector[i] = int(c)
+    }
+
+    cipherVector := make([]int, len(keyMatrix))
+
+    for i := 0; i < len(keyMatrix); i++ {
+        for j := 0; j < len(keyMatrix[i]); j++ {
+            cipherVector[i] += keyMatrix[i][j] * messageVector[j]
+        }
+        cipherVector[i] %= 256 // для управления ассиметрией
+    }
+
+    encryptedMessage := ""
+    for _, c := range cipherVector {
+        encryptedMessage += string(c)
+    }
+
+    return encryptedMessage
+}
+
+func main() {
+    keyMatrix := [][]int{{3, 2}, {1, 4}}
+    message := "Hi"
+
+    encryptedMessage := encrypt(message, keyMatrix)
+    fmt.Println("Encrypted Message:", encryptedMessage)
+}
