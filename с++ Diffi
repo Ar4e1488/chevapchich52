@@ -1,0 +1,39 @@
+#include <iostream>
+#include <cmath>
+
+// Функция для вычисления a^b mod p
+long long power(long long a, long long b, long long p) {
+    if (b == 1)
+        return a;
+    else
+        return (((long long)pow(a, b)) % p);
+}
+
+int main() {
+    long long P, G, x, a, y, b, ka, kb;
+
+    // Общедоступные значения P и G
+    P = 23; // Простое число
+    G = 9;  // Первообразный корень по модулю P
+
+    // Секретные ключи Алисы и Боба
+    a = 4;  // Секретный ключ Алисы
+    b = 3;  // Секретный ключ Боба
+
+    // Алиса вычисляет открытый ключ
+    x = power(G, a, P);
+
+    // Боб вычисляет открытый ключ
+    y = power(G, b, P);
+
+    // Алиса вычисляет общий секретный ключ
+    ka = power(y, a, P);
+
+    // Боб вычисляет общий секретный ключ
+    kb = power(x, b, P);
+
+    std::cout << "Секретный ключ Алисы: " << ka << std::endl;
+    std::cout << "Секретный ключ Боба: " << kb << std::endl;
+
+    return 0;
+}
