@@ -1,0 +1,37 @@
+package main
+
+import (
+    "fmt"
+    "math/big"
+)
+
+// Функция для вычисления a^b mod p
+func power(a, b, p *big.Int) *big.Int {
+    result := new(big.Int).Exp(a, b, p)
+    return result
+}
+
+func main() {
+    // Общедоступные значения P и G
+    P := big.NewInt(23) // Простое число
+    G := big.NewInt(9)  // Первообразный корень по модулю P
+
+    // Секретные ключи Алисы и Боба
+    a := big.NewInt(4) // Секретный ключ Алисы
+    b := big.NewInt(3) // Секретный ключ Боба
+
+    // Алиса вычисляет открытый ключ
+    x := power(G, a, P)
+
+    // Боб вычисляет открытый ключ
+    y := power(G, b, P)
+
+    // Алиса вычисляет общий секретный ключ
+    ka := power(y, a, P)
+
+    // Боб вычисляет общий секретный ключ
+    kb := power(x, b, P)
+
+    fmt.Printf("Секретный ключ Алисы: %s\\n", ka.String())
+    fmt.Printf("Секретный ключ Боба: %s\\n", kb.String())
+}
