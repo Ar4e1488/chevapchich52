@@ -1,0 +1,69 @@
+package main
+
+import (
+    "fmt"
+    "math"
+)
+
+func determinant(matrix [][]float64) float64 {
+    n := len(matrix)
+    if n == 1 {
+        return matrix[0][0]
+    }
+    if n == 2 {
+        return matrix[0][0]*matrix[1][1] - matrix[0][1]*matrix[1][0]
+    }
+
+    det := 0.0
+    for col := 0; col < n; col++ {
+        submatrix := make([][]float64, n-1)
+        for i := range submatrix {
+            submatrix[i] = make([]float64, n-1)
+        }
+
+        for i := 1; i < n; i++ {
+            subcol := 0
+            for j := 0; j < n; j++ {
+                if j == col {
+                    continue
+                }
+                submatrix[i-1][subcol] = matrix[i][j]
+                subcol++
+            }
+        }
+
+        sign := math.Pow(-1, float64(col))
+        det += sign * matrix[0][col] * determinant(submatrix)
+    }
+    return det
+}
+
+func cramer(A [][]float64, B []float64) []float64 {
+    n := len(A)
+    detA := determinant(A)
+    result := make([]float64, n)
+
+    for i := 0; i < n; i++ {
+        Ai := make([][]float64, n)
+        for j := range Ai {
+            Ai[j] = make([]float64, n)
+            copy(Ai[j], A[j])
+        }
+
+        for j := 0; j < n; j++ {
+            Ai[j][i] = B[j]
+        }
+
+        result[i] = determinant(Ai) / detA
+    }
+
+    return result
+}
+
+func main() {
+    A := [][]float64{{2, -1, 1}, {1, 3, -1}, {1, 0, 2}}
+    B := []float64{0, 5, 3}
+
+    X := cramer(A, B)
+    fmt.Println("Solution:", X)
+}
